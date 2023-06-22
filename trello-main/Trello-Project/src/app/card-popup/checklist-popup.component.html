@@ -1,0 +1,8 @@
+<div class="checklist-attach">
+    <span class="material-icons label-close" (click)='closeChk()'>close</span>
+    <div class="chk-header label-header">Add checklist</div>
+    <input class="chk-title" type="text" #chkOption autofocus onfocus=select() value="Checklist">
+    <div class="chk-create">
+        <button class="chk-save" (click)="addNewChk(chkOption); closeChk()">Add</button>
+    </div>
+</div>

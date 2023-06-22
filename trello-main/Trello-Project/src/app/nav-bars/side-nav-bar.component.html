@@ -1,0 +1,82 @@
+
+<!-- <mat-drawer-container class="main-comp"> -->
+    <button class='toggle-expand' type="button" mat-button
+      (click)="drawer.toggle()" (click)="action = !action" *ngIf="vissible">
+      <span class="material-icons right-arrow">navigate_next</span>
+    </button>
+    <button class="toggle-bar" type="button" (click)="drawer.toggle()" mat-button
+      (click)="action = !action">
+    </button>
+
+    <mat-drawer #drawer class="slidebar" mode="over">
+  <!--
+  <mat-drawer-container class="main-comp">
+    <button *ngIf="action" class="{{ action ? 'toggle-expand' : '' }}" type="button" mat-button
+      (click)="drawer.toggle()" (click)="action = !action">
+      <span *ngIf="action" class="material-icons right-arrow">navigate_next</span>
+    </button>
+    <button *ngIf="action" class="toggle-bar" type="button" (click)="drawer.toggle()" mat-button
+      (click)="action = !action">
+    </button>
+
+    <mat-drawer #drawer class="slidebar" mode="side"> -->
+
+      <article class="user-workspace">
+        <button class="toggle-collapse" type="button" mat-button (click)="drawer.toggle()" (click)="action = !action">
+          <span class="material-icons left-arrow">navigate_before</span>
+        </button>
+        <!-- <div class="user-icon">N</div> -->
+        <div class="user-info">{{ user.userName }}'s Workspace</div>
+
+        <div class="article-options">
+          <div class="boards">Boards</div>
+          <div class="templates">Templates</div>
+          <a routerLink="home-screen" routerLinkActive="active">
+            <div class="home">
+              Home
+            </div>
+          </a>
+        </div>
+        <div class="workspace-list">
+          <div class="your-boards">
+            Your Boards
+            <div class="material-icons new-board" (click)="createBoard = !createBoard;">add</div>
+          </div>
+          <div class="list-of-boards">
+            <a class="switch-boards" *ngFor="let x of projectsList; let k = index" (click)="openBoard(x)">
+              <div class="board-info">
+                <div class="bgk-preview" [ngStyle]="{'background': x.boardBackground}"></div>
+                {{ x.boardName }}
+              </div>
+            </a>
+
+            <!-- New Board Menu -->
+            <div class='hidden-create-board' *ngIf="createBoard" [ngStyle]="{background: bgkColor}">
+              <div class="background-pick">
+                <button class="colors color1" (click)="selectedBackground('url(../../assets/Background.images/1.jpg)', $event)"></button>
+                <button class="colors color2" (click)="selectedBackground('url(../../assets/Background.images/2.jpg)', $event)"></button>
+                <button class="colors color3" (click)="selectedBackground('url(../../assets/Background.images/4.jpg)', $event)"></button>
+                <button class="colors color4" (click)="selectedBackground('url(../../assets/Background.images/5.jpg)', $event)"></button>
+                <button class="colors color5" (click)="selectedBackground('url(../../assets/Background.images/6.jpg)', $event)"></button>
+                <button class="colors color6" (click)="selectedBackground('url(../../assets/Background.images/7.jpg)', $event)"></button>
+                <button class="colors color7" (click)="selectedBackground('#6e71ff', $event)"></button>
+                <button class="colors color8" (click)="selectedBackground('#5bfaff', $event)"></button>
+                <button class="colors color9" (click)="selectedBackground('#ffb223', $event)"></button>
+                <button class="colors color10" (click)="selectedBackground('#82fd7d', $event)"></button>
+                <button class="colors color11" (click)="selectedBackground('#faf624', $event)"></button>
+                <button class="colors color12" (click)="selectedBackground('#ff8a8a', $event)"></button>
+              </div>
+              <input class="board-input" [(ngModel)]='boardName' type="text" placeholder="Add Board Title" required>
+              <div class="board-action">
+                <button class="create-btn" type="submit" [disabled]="!boardName" (click)="addNewBoard(boardName); createBoard = !createBoard">Create board</button>
+                <button class="close-board" (click)="createBoard = !createBoard">Cancel</button>
+                <div *ngIf='!boardName' class="title-req">Board title is required!</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </article>
+    </mat-drawer>
+
+  <!-- </mat-drawer-container> -->

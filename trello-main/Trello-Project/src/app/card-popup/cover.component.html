@@ -1,0 +1,42 @@
+<span class="material-icons label-close" (click)='closeCoverPopup($event)'>close</span>
+<!-- <div (clickOutside)="closeCoverPopup($event)"> -->
+  <div class="label-header cover-header">Cover</div>
+    <div class="size-option">
+        <div class="cover-heading">Size</div>
+        <div class="size-cnt">
+            <div class="dummy-frame">
+              <div class="cover-style1" #cover1 (click)="updateStyle(1, cover1, cover2)">
+                <div class="style1-header" [ngStyle]="{'background':bgkColor}"></div>
+                <div class="style1-bar1"></div>
+                <div class="style1-bar2"></div>
+                <div class="style1-quick-icons">
+                  <div class="style1-dot"></div>
+                  <div class="style1-dot"></div>
+                </div>
+              </div>
+              <div class="cover-style2" #cover2 [ngStyle]="{'background':bgkColor}" (click)="updateStyle(2, cover2, cover1)">
+                <div class="style1-bar1" [ngStyle]="{'background':styleColor}"></div>
+                <div class="style1-bar2" [ngStyle]="{'background':styleColor}"></div>
+                <div class="style1-quick-icons">
+                  <div class="style1-dot" [ngStyle]="{'background':styleColor}"></div>
+                  <div class="style1-dot" [ngStyle]="{'background':styleColor}"></div>
+                </div>
+              </div>
+            </div>
+            <div class="remove-cover" (click)="removeCover(cover1, cover2)">Remove cover</div>
+        </div>
+        <div class="cover-heading">Colors</div>
+        <div class="cover-pick">
+            <div class="cover-colors cv-color1" (click)="setCover('#7BC86C')"></div>
+            <div class="cover-colors cv-color2" (click)="setCover('#F5DD29')"></div>
+            <div class="cover-colors cv-color3" (click)="setCover('#FFAF3F')"></div>
+            <div class="cover-colors cv-color4" (click)="setCover('#EF7564')"></div>
+            <div class="cover-colors cv-color5" (click)="setCover('#CD8DE5')"></div>
+            <div class="cover-colors cv-color6" (click)="setCover('#5BA4CF')"></div>
+            <div class="cover-colors cv-color7" (click)="setCover('#29CCE5')"></div>
+            <div class="cover-colors cv-color8" (click)="setCover('#6DECA9')"></div>
+            <div class="cover-colors cv-color9" (click)="setCover('#FF8ED4')"></div>
+            <div class="cover-colors cv-color10" (click)="setCover('#172B4D')"></div>
+        </div>
+    </div>
+<!-- </div> -->

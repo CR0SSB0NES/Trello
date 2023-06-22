@@ -1,0 +1,13 @@
+<nav *ngIf="vissible">
+  <a (click)="goToHomescreen()" class="trello">Trello</a>
+  <a  class="workspaces">Workspaces</a>
+  <a class="recent">Recent</a>
+  <a class="starred">Starred</a>
+  <a class="templates">Templates</a>
+  <a class="create">Create</a>
+  <div class="search-bar">
+    <input class="search-area" placeholder="Search" />
+    <a class="search"><span class="material-icons">search</span></a>
+  </div>
+  <div (click)="goToLogin()" class="logout">Logout</div>
+</nav>

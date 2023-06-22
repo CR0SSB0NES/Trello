@@ -1,0 +1,24 @@
+<div class="label-palette">
+    <span class="material-icons label-close" (click)='toggleLabel(); toggleLabel2()'>close</span>
+    <div class="label-header">Labels</div>
+    <input class="label-search" type="text" placeholder="Search...">
+    <div class="label-section">
+        <div class="label-subheading">Labels</div>
+        <div class="color-tiles color1" (click)="addLabel('#519839')">
+            <div class="tile-highlight color1-v"></div>
+        </div>
+        <div class="color-tiles color2" (click)="addLabel('#f2d600')">
+            <div class="tile-highlight color2-v"></div>
+        </div>
+        <div class="color-tiles color3" (click)="addLabel('#ff9f1a')">
+            <div class="tile-highlight color3-v"></div>
+        </div>
+        <div class="color-tiles color4" (click)="addLabel('#eb5a46')">
+            <div class="tile-highlight color4-v"></div>
+        </div>
+        <div class="color-tiles color5" (click)="addLabel('#0079bf')">
+            <div class="tile-highlight color5-v"></div>
+        </div>
+    </div>
+    <div class="new-label create-label">Create a new label</div>
+</div>

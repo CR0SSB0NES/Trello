@@ -1,0 +1,65 @@
+
+<app-nav-bars class="nav-bar"></app-nav-bars>
+<!-- <app-side-nav-bars class="side-nav-bar"></app-side-nav-bars> -->
+
+<!-- <mat-drawer-container class="main-comp"> -->
+<div class="board-ui">
+  <div class="color-nav"></div>
+  <div class="static-nav-bar">
+
+    <div class="main-nav-cnt">
+      <div class="main-nav-options active"><span class="material-icons menu-icon">space_dashboard</span>Boards</div>
+      <div class="main-nav-options"><span class="material-icons menu-icon">dashboard_customize</span>Templates</div>
+      <div class="main-nav-options"><span class="material-icons menu-icon">monitor_heart</span>Home</div>
+    </div>
+
+    <div class="workspace-cnt">
+      <div class="wrksp-heading">Workspace<span class="material-icons add-icon">add</span></div>
+        <div class="user-name">
+          <div id="colorpad" [ngStyle]="{'background':rndColor}">
+            {{ user.userName[0] }}
+          </div>
+          {{ user.userName }}'s Workspace
+        </div>
+        <div class="addt-option-cnt">
+          <div class="addt-options">Boards</div>
+          <div class="addt-options">Highlights</div>
+          <div class="addt-options">Workspace table</div>
+          <div class="addt-options">Members</div>
+          <div class="addt-options">Settings</div>
+        </div>
+    </div>
+
+  </div>
+  <div class="new-workspace-screen">
+    <div class="heading">Your Workspace Boards</div>
+    <div class="info-panel">
+      <div class="user-icon" [ngStyle]="{'background':rndColor}">{{ user.userName[0] }}</div>
+      <!-- <div class="user-icon">{{ user.userName }}</div> -->
+      <div class="user-info">{{user.userName}}'s Workspace</div>
+      <div class="options"><span class="material-icons info-icon">space_dashboard</span>Boards</div>
+      <div class="options"><span class="material-icons info-icon">list_alt</span>Workspace Tables</div>
+      <div class="options"><span class="material-icons info-icon">person_outline</span>Members</div>
+      <div class="options"><span class="material-icons info-icon">settings</span>Settings</div>
+      <div class="options"><span class="material-icons info-icon">business_center</span>Upgrade</div>
+    </div>
+
+    <!-- List of Boards -->
+    <div class="list-of-workspaces" id="workspaces">
+      <button class="boards" *ngFor="let board of prj"
+        [ngStyle]="{'background':board.boardBackground,'background-repeat': 'round'}"
+        (click)="openBoard(board)">
+        <div class="board-title">{{board.boardName}}</div>
+      </button>
+
+    <!-- Add New Board -->
+    <button class="newBoard boards" (click)="createTile = !createTile">Create new board</button>
+    <div *ngIf="createTile" id="crt">
+      <app-board-popup (removeCreateBox)="visibility($event)"></app-board-popup>
+    </div>
+  </div>
+
+</div>
+<div class="bgk-darken" *ngIf="createTile" (click)="createTile = !createTile"></div>
+</div>
+<!-- </mat-drawer-container> -->

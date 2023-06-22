@@ -1,0 +1,72 @@
+<article class="board-popup">
+
+    <span class="material-icons close-icn" (click)="removeCreateBoard()">close</span>
+    <div class="header">Create board</div>
+
+    <div class="preview" [ngStyle]="{'background':bgkColor}" >
+        <div class="prev-logo"><span class="material-icons logo-icon">space_dashboard</span></div>
+        <div class="prev-list1">
+            <div class="card-title">
+                <div class="card-title-heading"></div>
+            </div>
+            <div class="dummy-card">
+                <div class="dummy-card-heading type-1"></div>
+            </div>
+            <div class="dummy-card">
+                <div class="dummy-card-heading type-2"></div>
+            </div>
+            <div class="dummy-card card-type1">
+                <div class="dummy-card-heading"></div>
+            </div>
+        </div>
+        <div class="prev-list2">
+            <div class="card-title">
+                <div class="card-title-heading heading-style1"></div>
+            </div>
+            <div class="dummy-card">
+                <div class="dummy-card-heading"></div>
+            </div>
+            <div class="dummy-card">
+                <div class="dummy-card-heading type-1"></div>
+            </div>
+        </div>
+        <div class="prev-list3">
+            <div class="card-title">
+                <div class="card-title-heading"></div>
+            </div>
+            <div class="dummy-card card-type1">
+                <div class="dummy-card-heading type-2"></div>
+            </div>
+            <div class="dummy-card">
+                <div class="dummy-card-heading type-1"></div>
+            </div>
+            <div class="dummy-card">
+                <div class="dummy-card-heading"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Color Pick -->
+    <div class="bgk-title">Background</div>
+    <div class="bgk-cnt">
+        <div class="bgk-img color1" (click)="selectedBackground('url(../../assets/Background.images/1.jpg)', $event)"></div>
+        <div class="bgk-img color2" (click)="selectedBackground('url(../../assets/Background.images/2.jpg)', $event)"></div>
+        <div class="bgk-img color3" (click)="selectedBackground('url(../../assets/Background.images/7.jpg)', $event)"></div>
+        <div class="bgk-img color4" (click)="selectedBackground('url(../../assets/Background.images/5.jpg)', $event)"></div>
+        <div class="bgk-color color5" (click)="selectedBackground('#5bfaff', $event)"></div>
+        <div class="bgk-color color6" (click)="selectedBackground('#6e71ff', $event)"></div>
+        <div class="bgk-color color7" (click)="selectedBackground('#d477ff', $event)"></div>
+        <div class="bgk-color color8" (click)="selectedBackground('#66ff66', $event)"></div>
+        <div class="bgk-color color9" (click)="selectedBackground('#ffc964', $event)"></div>
+        <div class="bgk-color color10" (click)="selectedBackground('#ff6464', $event)"></div>
+    </div>
+
+    <div class="board-title bgk-title">Board title<span class="important">*</span></div>
+    <input [(ngModel)]='boardName' type="text" placeholder="Add Board Title" required>
+    <div *ngIf='!boardName' class="title-req"> 👋 Board title is required!</div>
+
+    <div class="vis-title bgk-title">Visibility</div>
+    <div class="vis-option">Workspace <span class="material-icons expand-icon">expand_more</span></div>
+    <button class="submit-form" type="submit" [disabled]="!boardName" (click)="addNewBoard(boardName); removeCreateBoard()">Create board</button>
+    <button class="submit-form">Start with a template</button>
+</article>

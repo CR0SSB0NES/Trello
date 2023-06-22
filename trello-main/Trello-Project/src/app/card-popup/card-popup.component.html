@@ -1,0 +1,225 @@
+<div class="bgk-darken" (click)="onClose()"></div>
+<div class="main-window">
+    <div class="card-cover" *ngIf="card.cardDetails.cover.length >= 1" [ngStyle]="{'background':card.cardDetails.cover[0]}"></div>
+    <div class="material-icons close-icon" (click)=onClose()>close</div>
+    <div class="card-detail-window" >
+
+        <!-- Card Header -->
+        <div class="card-name-cnt">
+            <span class="material-icons card-icon">space_dashboard</span>
+            <div class="card-name">
+                <input class="card-name-heading heading" title="Card Name" [(ngModel)]=card.cardTitle value={{card.cardTitle}}>
+                <p class=from-tile>in list
+                    <input class=tile-name title="Tile Name" [(ngModel)]=tile.tileName value={{tile.tileName}} >
+                </p>
+            </div>
+        </div>
+
+        <!-- Card Content -->
+        <div class="cnt-container">
+
+            <!-- Label -->
+            <div class="label-container" *ngIf='card.cardDetails.label.length != 0'>
+                <div *ngFor="let label of card.cardDetails.label">
+                    <div class="label-box" [ngStyle]="{'background':label}"></div>
+                </div>
+                <div>
+                    <div class="label-box new-label material-icons" (click)="attachLabel2 = !attachLabel2">add</div>
+                    <div id="label-popup2" *ngIf=attachLabel2 [ngClass]="{'fade-in': attachLabel2}">
+                        <app-label-popup (closeLabel2)=closeLabel2() [boardInfo]=boardInfo></app-label-popup>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Description -->
+            <div class="card-des">
+                <span class="material-icons des-icon">reorder</span>
+                <div class="des-heading">
+                    <div class ="heading">Description</div>
+                    <div class="edit-des-btn" (click)="editDes = !editDes"
+                        *ngIf="card.cardDetails.description != '' && !editDes">Edit</div>
+                </div>
+                <div class="des-intf" *ngIf="!card.cardDetails.description">
+                    <div class="add-desc" *ngIf=!wrapper (click)="wrapper = !wrapper">
+                        Add a more detailed description...
+                    </div>
+                    <div class="des-wrapper" *ngIf=wrapper>
+                        <textarea class="des-in" #content placeholder="Add a more detailed description..."
+                            autofocus></textarea>
+                        <div class="des-create">
+                            <button class="des-save" (click)="addDescription(content)" (click)="wrapper = !wrapper">
+                                Save
+                            </button>
+                            <div class="material-icons cmt-close-icon" (click)="wrapper = !wrapper">close</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Updating Description -->
+                <div class="des-cnt" (click)="editDes = !editDes" *ngIf="card.cardDetails.description != '' && !editDes">
+                    {{ card.cardDetails.description }}
+                </div>
+                <div class="des-wrapper" *ngIf=editDes>
+                    <textarea class="des-in" #content value="{{ card.cardDetails.description }}" autofocus
+                        onfocus=select()></textarea>
+                    <div class="des-create">
+                        <button class="des-save" (click)="addDescription(content)" (click)="editDes = !editDes">
+                            Save
+                        </button>
+                        <div class="material-icons cmt-close-icon" (click)="editDes = !editDes">close</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attachments -->
+            <div class="attch-container" *ngIf="card.cardDetails.attachment.length != 0">
+                <span class="material-icons atch-icon">attachment</span>
+                <div class="attachment-heading heading">Attachments</div>
+                <div class="card-attachments" *ngFor="let attachments of card.cardDetails.attachment">
+                    <div class="attachment-cnt">
+                        <img [src]=attachments.image alt={{attachments}} width="200px" height="auto">
+                        <div class="attachment-desc">
+                            <p class="attch-name">{{ attachments.name }}</p>
+                            <div class="attch-control-panel">
+                                <p class="attch-date">Added on {{ attachments.date | date:'medium'}}</p>-
+                                <div class="attch-comment">Comment</div>-
+                                <div class="attch-delete" (click)="deleteAttachment(attachments)">Delete</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checklist -->
+            <div class="card-checklist" *ngFor="let list of card.cardDetails.checkList, let currentChk = index">
+                <ng-container *ngIf="list.listTitle">
+                    <div class="checklist-cnt">
+                        <div class="list-title">
+                            <span class="material-icons icons list-icon">task_alt</span>
+                            <div class="heading list-heading">
+                                {{ list.listTitle }}
+
+                                <!-- Delete Checklist -->
+                                <div class="checklist-delete">
+                                    <div class="delete-btn" (click)="cnfmDelete = !cnfmDelete; passDeleteIndex(currentChk)">Delete</div>
+                                    <div class="confirm-delete-action" *ngIf="cnfmDelete && deleteIndex == currentChk">
+                                        <span class="material-icons label-close" (click)="cnfmDelete = !cnfmDelete">close</span>
+                                        <div class="label-header">Delete Checklist?</div>
+                                        <p class="delete-warning">Deleting a checklist is permanent and there is no way to get it back.</p>
+                                        <div class="confirm-delete" (click)="deleteChk(list); cnfmDelete = !cnfmDelete">Delete checklist</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Progressbar -->
+                        <div class="progress-cnt">
+                            <div class="progress-percent">{{list.listProgress}}%</div>
+                            <progress class='pg-bar' value="{{list.listProgress}}" max="100">{{list.listProgress}}</progress>
+                        </div>
+
+                        <!-- List of options -->
+                        <div class="list-cnt" *ngFor="let options of list.listOptions">
+                            <input id='check' type="checkbox" [(ngModel)]='options.condition' (change)="updatePgBar(list)">
+                            <div class="chk-option-cnt">
+                                <label [ngClass]="{'chk-strike': options.condition}">{{ options.option }}</label>
+                                <!-- ngClass="{{options.condition?'chk-strike':''}}" -->
+
+                                <!-- Delete options -->
+                                <span class="material-icons delete-icon" (click)="deleteOption(list, options)">delete_outline</span>
+
+                            </div>
+                        </div>
+
+                        <!-- Add new option -->
+                        <div class="add-new-option" (click)="thisChk(currentChk, $event); showChk = !showChk">Add an item</div>
+                        <div class="add-chk-hidden" *ngIf="showChk && openedChk == currentChk" >
+                            <textarea class='chk-input' #newOption placeholder="Add an item.."></textarea>
+                            <div class="chk-action-cnt">
+                                <div class="chk-confirm" (click)="addOption(newOption, list); showChk = !showChk">Add</div>
+                                <span class="material-icons cmt-close-icon" (click)="showChk = !showChk; closeAddChk()">close</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </ng-container>
+            </div>
+
+            <!-- Card Activity -->
+            <div class="card-activity">
+                <span class="material-icons activity-icon">list</span>
+                <div class="activity-heading heading">Activity</div>
+
+                <!-- New Comment -->
+                <div class="new-cmt">
+                    <div class="default-user-icon ">N</div>
+                    <textarea class="textarea" (click)="newComment = true" placeholder="Write a comment..."></textarea>
+                    <div class="cmt-actions" *ngIf="newComment">
+                        <div id='save' (click)='addCmt(); newComment=false'>Save</div>
+                        <div class="material-icons cmt-close-icon" (click)='newComment=false'>close</div>
+                    </div>
+                </div>
+
+                <!-- List of Comments -->
+                <ng-container class="activity-cnt" *ngIf="card.cardDetails.comments">
+                    <div class="cmt-container" id="cmt-container" *ngFor="let comments of card.cardDetails.comments, let i=index">
+                        <div class="user-info">
+                            <div class="user-icon">N</div>
+                            <div class="user-name">Username</div>
+                        </div>
+                        <app-edit-card-popup *ngIf='editCmt && cmtIndex == i' (cmtUpdate)=showEdit() [boardInfo]=boardInfo [index]=cmtIndex>
+                        </app-edit-card-popup>
+                        <div class="cmt-area">
+                            <div class="cmt-box">{{ comments }}</div>
+                            <div class="cmt-actions" id="cmt-actions">
+                                <span class="material-icons reaction-icon">sentiment_very_satisfied</span>-
+                                <div class="cmt-edit" (click)="cmtEdit(i)"><u>Edit</u></div>-
+                                <div class="cmt-delete" (click)="deleteCmt(i)"><u>Delete</u></div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+
+        <!-- Card Accessories -->
+        <div class="sidebar">
+            <article class="title">Add to card</article>
+
+            <!-- Side Menu -->
+            <div class="sideMenuItems">
+
+                <!-- Label -->
+                <div class="label sideMenu" title="Label" (click)="this.attachLabel = !this.attachLabel"><span class="material-icons sideIcons">label</span>Label</div>
+                <div id="label-popup" *ngIf=attachLabel [ngClass]="{'fade-in': attachLabel}">
+                    <app-label-popup (closeLabel)='closeLabel()' [boardInfo]=boardInfo></app-label-popup>
+                </div>
+
+                <!-- Checklist -->
+                <div class="checklist sideMenu" title="Checklist" (click)='attachChecklist = !attachChecklist'><span class="material-icons sideIcons">check_box</span>Checklist</div>
+                <div id="checklist-popup" *ngIf=attachChecklist [ngClass]="{'fade-in': attachChecklist}">
+                    <app-checklist-popup (closeChecklist)='closeChecklist()' [boardInfo]=boardInfo></app-checklist-popup>
+                </div>
+
+                <!-- Attachment -->
+                <div class="attachment sideMenu" (click)="attch.click()" title="Attachments"><span class="material-icons sideIcons attch-icon">attachment</span>
+                    <input type="file" #attch (change)='addAttch($event)' style='display:none'>Attachment
+                </div>
+
+                <!-- Cover -->
+                <div class="sideMenu" (click)="showCover = !showCover;"><span class="material-icons sideIcons">wysiwyg</span>Cover</div>
+                <div class="cover-popup" *ngIf="showCover" [ngClass]="{'fade-in':showCover, 'shift-up' : (card.cardDetails.cover.length >= 1)}">
+                    <app-cover-popup (closeCoverBottom)="closeCoverBt()"  [board_info]="boardInfo"></app-cover-popup>
+                </div>
+
+                <div class="sideMenu" ><span class="material-icons sideIcons">person</span>Members</div>
+                <div class="sideMenu"><span class="material-icons sideIcons">schedule</span>Dates</div>
+                <div class="sideMenu"><span class="material-icons sideIcons">place</span>Location</div>
+                <div class="sideMenu"><span class="material-icons sideIcons">new_label</span>Custom Fields</div>
+            </div>
+
+        </div>
+    </div>
+</div>

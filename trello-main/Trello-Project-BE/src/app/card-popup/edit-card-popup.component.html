@@ -1,0 +1,7 @@
+<div class="new-cmt">
+    <textarea class="textarea" #comment autofocus onfocus=select()>{{ card.cardDetails.comments[index] }}</textarea>
+</div>
+<div class="des-create">
+    <button class="des-save" (click)="updateCmt(comment); removeCardUpdate()">Save</button>
+    <div class="material-icons des-close-icon"(click)="removeCardUpdate()">close</div>
+</div>

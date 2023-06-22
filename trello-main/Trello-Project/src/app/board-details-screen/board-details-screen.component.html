@@ -1,0 +1,98 @@
+<app-nav-bars class="nav-bar"></app-nav-bars>
+<app-side-nav-bars class="side-nav-bar"></app-side-nav-bars>
+
+<mat-drawer-container>
+<div class="board-details-screen" [ngStyle]="{'background':bgColor}">
+   <div class="board-header">
+       <div class="switch-boards">Boards<span class="material-icons expand-icon">expand_more</span></div>
+        <!-- <select class="switch-boards">
+            <option class="switch-boards" *ngFor="let x of projects; let k = index" (click)="openBoard(x)">
+                {{ x.boardName }}
+            </option>
+        </select> -->
+       <input class="opened-board" [(ngModel)]=chosenBoard.boardName value={{chosenBoard.boardName}}>
+    </div>
+
+    <!-- List of tiles -->
+    <div class="tile-bed" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="tileDrop($event)">
+        <div *ngFor="let tiles of chosenBoard.boardLabel, let k=index">
+            <div cdkDrag id="tiles-box" cdkDragBoundary=.board-details-screen>
+                <article class="tiles-box tile-container" cdkDropList cdkDropListOrientation="vertical"
+                         (cdkDropListDropped)="cardDrop($event, tiles)">
+                    <div class="title-cnt">
+                        <div class="tile-title">{{ tiles.tileName }}</div>
+                        <span class="material-icons more-options">more_horiz</span>
+                    </div>
+                    <div class="card-lists" *ngIf="tiles.cards">
+
+                        <!-- List of cards -->
+                        <ng-container *ngFor="let card of tiles.cards">
+                            <button class="cards" [ngStyle]="{'background':card.cardDetails.cover[1] == 2 ? card.cardDetails.cover[0]: '#fff' }" (click)="openCard(tiles, card)" cdkDrag>
+                                <div [ngClass]="{'style-1': card.cardDetails.cover[1] == 1}" [ngStyle]="{'background':card.cardDetails.cover[0]}"></div>
+                                <!-- Labels -->
+                                <ng-container *ngIf='card.cardDetails'>
+                                    <div class="label-container" *ngIf='card.cardDetails.label'>
+                                        <div class="label-array" *ngFor='let label of card.cardDetails.label' [ngStyle]="{'background':label}"></div>
+                                    </div>
+                                </ng-container>
+
+                                <!-- Card Title -->
+                                <div class="card-title">{{ card.cardTitle }}</div>
+
+                                <!-- Card Quick Info -->
+                                <div class="card-notifications" *ngIf="card.cardDetails">
+                                    <div *ngIf="card.cardDetails.description">
+                                        <span *ngIf="card.cardDetails && card.cardDetails.description" class="material-icons seg-icon">
+                                            segment
+                                        </span>
+                                    </div>
+                                    <div *ngIf="card.cardDetails.comments.length != 0" class="comments">
+                                        <span class="material-icons des-icon">chat_bubble_outline</span>
+                                        {{ card.cardDetails.comments.length }}
+                                    </div>
+                                    <ng-container *ngIf="card.cardDetails.attachment">
+                                        <div *ngIf="card.cardDetails.attachment.length != 0" class="comments">
+                                            <span class="material-icons attch-icon">attachment</span>
+                                            {{ card.cardDetails.attachment.length }}
+                                        </div>
+                                    </ng-container>
+                                </div>
+
+                            </button>
+                        </ng-container>
+                    </div>
+
+                    <!-- Add Card -->
+                    <div class="add-card-cnt" id="add-card-cnt">
+                        <button class="add-new-card" id="add-new-card" (click)="createCard($event, tiles)">
+                            <div class="material-icons">add</div>
+                            Add a card
+                        </button>
+                    </div>
+
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add new tile -->
+    <div class="add-tile">
+        <button class="create-tile {{ allowList? 'hide' : ''}}" (click)="allowList = !allowList">
+            <i class="material-icons">add</i>Add another list
+        </button>
+        <div class="hidden-tile-menu" *ngIf="allowList">
+            <input #tileName class="tile-name" type="text" placeholder="Enter list title...">
+            <div class="tile-cnt">
+                <button class="add-tile-button" (click)="createTile(tileName)">Add Tile</button>
+                <div class="tile-close" id="tile-close" (click)="allowList = !allowList">
+                    <span class="material-icons">close</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="cnt" *ngIf="showInfo">
+    <app-card-popup [boardInfo]=boardInfo (closeCardInfo)="closeCardInfo($event)"></app-card-popup>
+</div>
+</mat-drawer-container>
